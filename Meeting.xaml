@@ -1,0 +1,63 @@
+﻿<Window x:Class="VirtualClassroom.Meeting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Live Class Manager" Height="450" Width="500"
+        WindowStartupLocation="CenterOwner" Background="#1E3A8A">
+
+    <Grid>
+        <Image Source="/Images/grades.jpg" Stretch="UniformToFill" Opacity="0.3"/>
+
+        <Border Background="#99FFFFFF" Margin="40" CornerRadius="20" BorderBrush="White" BorderThickness="1.5">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15" ShadowDepth="2" Opacity="0.1"/>
+            </Border.Effect>
+
+            <StackPanel VerticalAlignment="Center" Margin="20">
+                <TextBlock Text="Classroom Status" FontSize="24" FontWeight="Bold" Foreground="#1E3A8A" HorizontalAlignment="Center"/>
+                <Rectangle Height="3" Width="40" Fill="#3B82F6" HorizontalAlignment="Center" Margin="0,10,0,15"/>
+
+                <Border Background="#113B82F6" CornerRadius="10" Padding="15" Margin="10,0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Ellipse x:Name="StatusDot" Width="14" Height="14" Fill="Gray" Margin="0,0,10,0">
+                            <Ellipse.Effect>
+                                <DropShadowEffect BlurRadius="8" ShadowDepth="0" Color="White" Opacity="0.5"/>
+                            </Ellipse.Effect>
+                        </Ellipse>
+                        <TextBlock x:Name="TxtMeetingStatus" Text="Checking status..." 
+                                   FontSize="16" Foreground="#1E3A8A" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Border>
+
+                <Button x:Name="BtnAction" Content="Start Meeting" 
+                        Margin="0,30,0,0" Height="50" Width="240"
+                        Background="#3B82F6" Foreground="White" FontSize="16" FontWeight="Bold"
+                        Click="BtnAction_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="12"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <Button x:Name="BtnEndMeeting" Content="End Session for All" 
+                        Visibility="Collapsed" Margin="0,12,0,0" Height="40" Width="240"
+                        Background="#EF4444" Foreground="White" FontWeight="SemiBold"
+                        Click="BtnEndMeeting_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0">
+                    <Button Content="Refresh" Background="Transparent" BorderThickness="0" 
+                            Foreground="#3B82F6" Cursor="Hand" Margin="10,0" Click="Refresh_Click"/>
+                    <TextBlock Text="|" Foreground="#CBD5E1" VerticalAlignment="Center"/>
+                    <Button Content="Close" Background="Transparent" BorderThickness="0" 
+                            Foreground="#64748B" Cursor="Hand" Margin="10,0" Click="Close_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

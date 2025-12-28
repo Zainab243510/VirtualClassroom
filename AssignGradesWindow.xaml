@@ -1,40 +1,98 @@
 ﻿<Window x:Class="VirtualClassroom.AssignGradesWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Assign Grades" Height="350" Width="450">
+        Title="Assign Grades" Height="558" Width="416"
+        WindowStartupLocation="CenterOwner"
+        >
+    <Window.Background>
+        <ImageBrush ImageSource="/Images/grades.jpg" 
+                    Stretch="UniformToFill" 
+                    Opacity="0.5"/>
+    </Window.Background>
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="#1E40AF"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,10,0,0"/>
+        </Style>
 
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        <Style x:Key="ModernInput" TargetType="Control">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3B82F6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="38"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Window.Resources>
 
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" 
-                   Text="Select Student and Course to Assign Grade" 
-                   FontWeight="Bold" Margin="0,0,0,15"/>
+    <Border Background="#CCFFFFFF" Margin="25,46,38,63" CornerRadius="20">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15" ShadowDepth="2" Opacity="0.1"/>
+        </Border.Effect>
 
-        <Label Grid.Row="1" Grid.Column="0" Content="Student:" Margin="0,5"/>
-        <ComboBox x:Name="CboStudents" Grid.Row="1" Grid.Column="1" 
-                  Margin="5" DisplayMemberPath="StudentName"/>
+        <Grid Margin="25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <Label Grid.Row="2" Grid.Column="0" Content="Course:" Margin="0,5"/>
-        <ComboBox x:Name="CboCourses" Grid.Row="2" Grid.Column="1" 
-                  Margin="5" DisplayMemberPath="CourseName"/>
+            <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                <TextBlock Text="Academic Grading" FontSize="20" FontWeight="Bold" Foreground="#1E3A8A"/>
+                <TextBlock Text="Assign grades to student enrollments" FontSize="11" Foreground="#64748B"/>
+                <Rectangle Height="3" Width="40" Fill="#3B82F6" HorizontalAlignment="Left" Margin="0,8,0,0"/>
+            </StackPanel>
 
-        <Label Grid.Row="3" Grid.Column="0" Content="Grade (A-F):" Margin="0,5"/>
-        <TextBox x:Name="TxtGrade" Grid.Row="3" Grid.Column="1" Margin="5"/>
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <Label Content="Select Student:"/>
+                <ComboBox x:Name="CboStudents" 
+                          Style="{StaticResource ModernInput}" 
+                          DisplayMemberPath="StudentName"
+                          Padding="10,0"/>
 
-        <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                Content="Save Grade" 
-                Click="SaveGrade_Click" 
-                Margin="0,20,0,0" Padding="10"/>
+                <Label Content="Select Course:"/>
+                <ComboBox x:Name="CboCourses" 
+                          Style="{StaticResource ModernInput}" 
+                          DisplayMemberPath="CourseName"
+                          Padding="10,0"/>
 
-    </Grid>
+                <Label Content="Final Grade (A-F):"/>
+                <TextBox x:Name="TxtGrade" 
+                         Style="{StaticResource ModernInput}"
+                         HorizontalContentAlignment="Center"
+                         FontWeight="Bold"
+                         FontSize="16"
+                         Padding="10,0"/>
+            </StackPanel>
+
+            <Button Grid.Row="2" 
+                    Content="Confirm &amp; Save Grade" 
+                    Click="SaveGrade_Click" 
+                    Background="#3B82F6" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    Height="48" 
+                    Margin="0,25,0,0" 
+                    Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1E40AF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+    </Border>
 </Window>

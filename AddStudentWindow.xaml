@@ -1,37 +1,82 @@
 ﻿<Window x:Class="VirtualClassroom.AddStudentWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Add New Student" Height="300" Width="400">
+        Title="Add New Student" Height="750" Width="425"
+        WindowStartupLocation="CenterOwner">
+    <Window.Background>
+        <ImageBrush ImageSource="/Images/student.jpg" Stretch="UniformToFill" Opacity="0.5"/>
+    </Window.Background>
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="#1E40AF"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,10,0,0"/>
+        </Style>
+        <Style x:Key="ModernInput" TargetType="Control">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3B82F6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="8,0"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+    </Window.Resources>
 
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <Border Background="#99FFFFFF" Margin="40,20,40,40" CornerRadius="20">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="15" ShadowDepth="2" Opacity="0.1"/>
+        </Border.Effect>
 
-        <Label Grid.Row="0" Grid.Column="0" Content="Student ID:" Margin="0,5"/>
-        <TextBox x:Name="TxtStudentID" Grid.Row="0" Grid.Column="1" Margin="5"/>
+        <Grid Margin="25">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <Label Grid.Row="1" Grid.Column="0" Content="Full Name:" Margin="0,5"/>
-        <TextBox x:Name="TxtStudentName" Grid.Row="1" Grid.Column="1" Margin="5"/>
+            <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                <TextBlock Text="Student Registration" FontSize="20" FontWeight="Bold" Foreground="#1E3A8A"/>
+                <Rectangle Height="3" Width="40" Fill="#3B82F6" HorizontalAlignment="Left" Margin="0,5,0,0"/>
+            </StackPanel>
 
-        <Label Grid.Row="2" Grid.Column="0" Content="Major:" Margin="0,5"/>
-        <TextBox x:Name="TxtMajor" Grid.Row="2" Grid.Column="1" Margin="5"/>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <Label Content="Student ID:"/>
+                    <TextBox x:Name="TxtStudentID" Style="{StaticResource ModernInput}"/>
 
-        <Label Grid.Row="3" Grid.Column="0" Content="Enrollment Date:" Margin="0,5"/>
-        <DatePicker x:Name="DtEnrollmentDate" Grid.Row="3" Grid.Column="1" Margin="5"/>
+                    <Label Content="Full Name:"/>
+                    <TextBox x:Name="TxtStudentName" Style="{StaticResource ModernInput}"/>
 
-        <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" 
-                Content="Save Student" 
-                Click="SaveButton_Click" 
-                Margin="0,20,0,0" Padding="10"/>
+                    <Label Content="Major / Department:"/>
+                    <TextBox x:Name="TxtMajor" Style="{StaticResource ModernInput}"/>
 
-    </Grid>
+                    <Label Content="Username:"/>
+                    <TextBox x:Name="TxtUsername" Style="{StaticResource ModernInput}"/>
+
+                    <Label Content="Password:"/>
+                    <PasswordBox x:Name="TxtPassword" Style="{StaticResource ModernInput}"/>
+
+                    <Label Content="Enrollment Date:"/>
+                    <DatePicker x:Name="DtEnrollmentDate" Height="35" VerticalContentAlignment="Center" BorderBrush="#3B82F6"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Button Grid.Row="2" Content="Save Student Record" Click="SaveButton_Click" 
+                    Background="#3B82F6" Foreground="White" FontWeight="Bold" Height="45" Margin="0,20,0,0" Cursor="Hand">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+    </Border>
 </Window>

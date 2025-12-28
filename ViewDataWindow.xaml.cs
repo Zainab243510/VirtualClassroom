@@ -1,32 +1,88 @@
-﻿using System.Windows;
-using System.Data; // Required for DataTable
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using VirtualClassroom.DataLayer;
 
-public partial class ViewDataWindow : Window
+
+namespace VirtualClassroom
 {
-    public ViewDataWindow()
+    public partial class ViewDataWindow : Window
     {
-        InitializeComponent();
-        LoadStudentData();
-    }
-
-    private void LoadStudentData()
-    {
-        try
+        private DataTable? _fullData;
+        public ViewDataWindow()
         {
-            // Assuming your DatabaseHelper.cs has a method that returns data as a DataTable
-            DataTable dtStudents = DatabaseHelper.GetAllStudents();
-
-            // Assign the DataTable directly to the DataGrid's ItemsSource
-            StudentDataGrid.ItemsSource = dtStudents.DefaultView;
-
+            InitializeComponent();
+            LoadFullData();
         }
-        catch (Exception ex)
+        private void LoadFullData()
         {
-            MessageBox.Show($"Error loading data: {ex.Message}", "Database Error");
+            // Use the combined data table method
+            _fullData = DatabaseHelper.GetEnrollmentData();
+            DataGridEnrollments.ItemsSource = _fullData.DefaultView;
+        }
+
+        // --- Filtering and Searching Logic ---
+
+        private void ApplyFilters()
+        {
+            if (_fullData == null) return;
+
+            // Get the DataView to apply filtering
+            DataView dv = _fullData.DefaultView;
+            string filterExpression = "";
+
+            // 1. Search by Student Name
+            string searchText = TxtSearch.Text.Trim();
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                // Use LIKE syntax for DataView RowFilter
+                filterExpression += $"[Student Name] LIKE '%{searchText}%'";
+            }
+
+            // 2. Filter by Grade
+            ComboBoxItem? selectedGradeItem = CboGradeFilter.SelectedItem as ComboBoxItem;
+            string? selectedGrade = selectedGradeItem?.Content?.ToString();
+
+            if (selectedGrade != null && selectedGrade != "All Grades")
+            {
+                // If there's already a search filter, combine them with 'AND'
+                if (!string.IsNullOrEmpty(filterExpression))
+                {
+                    filterExpression += " AND ";
+                }
+                filterExpression += $"Grade = '{selectedGrade}'";
+            }
+
+            // Apply the final filter string
+            dv.RowFilter = filterExpression;
+        }
+
+        private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void CboGradeFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplyFilters();
+        }
+
+        private void ResetFilters_Click(object sender, RoutedEventArgs e)
+        {
+            TxtSearch.Clear();
+            CboGradeFilter.SelectedIndex = 0; // Reset to "All Grades"
+            ApplyFilters(); // This will apply an empty filter, resetting the view
         }
     }
-
-    // NOTE: To implement color coding based on grade, you'd need to loop 
-    // through the rows after loading or use WPF's styling/trigger system, 
-    // which is more complex than simple code-behind.
 }

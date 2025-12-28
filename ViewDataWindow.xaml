@@ -1,10 +1,97 @@
 ﻿<Window x:Class="VirtualClassroom.ViewDataWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="268" Width="648">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Academic Reports" Height="650" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#1E3A8A"> <Window.Resources>
+        <Style x:Key="ModernInput" TargetType="Control">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#3B82F6"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="8"/>
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="GridLinesVisibility" Value="None"/>
+            <Setter Property="RowHeight" Value="40"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#F1F5F9"/>
+                        <Setter Property="Foreground" Value="#1E3A8A"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                        <Setter Property="Padding" Value="10,8"/>
+                        <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                        <Setter Property="BorderBrush" Value="#3B82F6"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <DataGrid x:Name="StudentDataGrid" 
-                  IsReadOnly="True" 
-                  AutoGenerateColumns="True" 
-                  Margin="10"/>
+        <Image Source="/Images/report.jpg" Stretch="UniformToFill" Opacity="01"/>
+
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <RowDefinition Height="*"/>    </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="#CCFFFFFF" CornerRadius="15" Padding="20" Margin="0,0,0,20">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Margin="0,0,20,0">
+                        <Label Content="Search Student" Foreground="#1E3A8A" FontWeight="Bold" Padding="0,0,0,5"/>
+                        <TextBox x:Name="TxtSearch" Width="220" Style="{StaticResource ModernInput}" 
+                                 TextChanged="TxtSearch_TextChanged"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,20,0">
+                        <Label Content="Grade Filter" Foreground="#1E3A8A" FontWeight="Bold" Padding="0,0,0,5"/>
+                        <ComboBox x:Name="CboGradeFilter" Width="120" Style="{StaticResource ModernInput}" 
+                                  SelectedIndex="0" SelectionChanged="CboGradeFilter_SelectionChanged">
+                            <ComboBoxItem Content="All Grades"/>
+                            <ComboBoxItem Content="A"/>
+                            <ComboBoxItem Content="B"/>
+                            <ComboBoxItem Content="C"/>
+                            <ComboBoxItem Content="D"/>
+                            <ComboBoxItem Content="F"/>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <Button Content="Reset Filters" Click="ResetFilters_Click" 
+                            Background="#3B82F6" Foreground="White" Width="120" Height="35" 
+                            VerticalAlignment="Bottom" FontWeight="Bold" Cursor="Hand">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" Background="#CCFFFFFF" CornerRadius="15" Padding="10">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="20" ShadowDepth="0" Opacity="0.2"/>
+                </Border.Effect>
+                
+                <DataGrid x:Name="DataGridEnrollments" 
+                          IsReadOnly="True" 
+                          AutoGenerateColumns="True" 
+                          AlternatingRowBackground="#F8FAFC"
+                          HeadersVisibility="Column"
+                          Background="#CCFFFFFF"
+                          Foreground="#1E3A8A"/>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

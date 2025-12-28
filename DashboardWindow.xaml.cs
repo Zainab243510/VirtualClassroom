@@ -1,52 +1,70 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using VirtualClassroom.DataLayer;
 
-public partial class DashboardWindow : Window
+namespace VirtualClassroom
 {
-    public DashboardWindow()
+    public partial class DashboardWindow : Window
     {
-        InitializeComponent();
-    }
+        public DashboardWindow()
+        {
+            InitializeComponent();
+        }
 
-    private void AddStudent_Click(object sender, RoutedEventArgs e)
-    {
-        // Opens the window you just created
-        AddStudentWindow addStudentWindow = new AddStudentWindow();
-        addStudentWindow.Show();
-    }
+        private void AddStudent_Click(object sender, RoutedEventArgs e)
+        {
+            AddStudentWindow addStudentWindow = new AddStudentWindow();
+            addStudentWindow.Show();
+        }
 
-    private void AddCourse_Click(object sender, RoutedEventArgs e)
-    {
-        // You will implement the AddCourseWindow next
-        // AddCourseWindow addCourseWindow = new AddCourseWindow();
-        // addCourseWindow.Show(); 
-        MessageBox.Show("Add Course feature coming soon!");
-    }
+        private void AddCourse_Click(object sender, RoutedEventArgs e)
+        {
+            AddCourseWindow addCourseWindow = new AddCourseWindow();
+            addCourseWindow.Show();
+        }
 
-    private void AssignGrades_Click(object sender, RoutedEventArgs e)
-    {
-        // You will implement the AssignGradesWindow next
-        // AssignGradesWindow gradesWindow = new AssignGradesWindow();
-        // gradesWindow.Show();
-        MessageBox.Show("Assign Grades feature coming soon!");
-    }
+        private void AssignGrades_Click(object sender, RoutedEventArgs e)
+        {
+            AssignGradesWindow gradesWindow = new AssignGradesWindow();
+            gradesWindow.Show();
+        }
 
-    private void ViewData_Click(object sender, RoutedEventArgs e)
-    {
-        // Opens the window we discussed for simple data display
-        ViewDataWindow viewDataWindow = new ViewDataWindow();
-        viewDataWindow.Show();
-    }
+        private void ViewData_Click(object sender, RoutedEventArgs e)
+        {
+            ViewDataWindow viewDataWindow = new ViewDataWindow();
+            viewDataWindow.Show();
+        }
 
-    private void Reports_Click(object sender, RoutedEventArgs e)
-    {
-        MessageBox.Show("Report generation is under development!");
-    }
+        private void Reports_Click(object sender, RoutedEventArgs e)
+        {
+            ReportsWindow reportsWindow = new ReportsWindow();
+            reportsWindow.Show();
+        }
 
-    private void Logout_Click(object sender, RoutedEventArgs e)
-    {
-        // Optional: Open the Login Window again and close the Dashboard
-        LoginWindow loginWindow = new LoginWindow();
-        loginWindow.Show();
-        this.Close();
+        // UPDATED LOGOUT METHOD
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            // Create the RoleSelectionWindow instead of LoginWindow
+            RoleSelectionWindow roleSelection = new RoleSelectionWindow();
+
+            // Show the selection screen
+            roleSelection.Show();
+
+            // Close the current Dashboard
+            this.Close();
+        }
+
+        private void Meetings_Click(object sender, RoutedEventArgs e)
+        {
+            Meeting meetingWindow = new Meeting();
+            meetingWindow.Owner = this;
+            meetingWindow.Show();
+        }
+
+        private void MarkAttendance_Click(object sender, RoutedEventArgs e)
+        {
+            MarkAttendanceWindow attendanceWin = new MarkAttendanceWindow();
+            attendanceWin.Show();
+        }
     }
 }

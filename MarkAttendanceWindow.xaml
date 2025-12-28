@@ -1,0 +1,186 @@
+﻿<Window x:Class="VirtualClassroom.MarkAttendanceWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Mark Attendance" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Window.Background>
+        <ImageBrush ImageSource="/Images/att.png" Stretch="UniformToFill">
+            <ImageBrush.RelativeTransform>
+                <ScaleTransform CenterX="0.5" CenterY="0.5" ScaleX="1" ScaleY="1"/>
+            </ImageBrush.RelativeTransform>
+        </ImageBrush>
+    </Window.Background>
+
+    <Grid Background="#E61E293B">
+        <Grid.Resources>
+            <Style x:Key="BlueComboBox" TargetType="ComboBox">
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="BorderBrush" Value="#6366F1"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ComboBox">
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
+                                <Grid>
+                                    <ToggleButton x:Name="ToggleButton" 
+                                                  BorderThickness="0" 
+                                                  Background="Transparent" 
+                                                  Foreground="#1E1B4B"
+                                                  Grid.Column="2" 
+                                                  Focusable="false"
+                                                  IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  ClickMode="Press"/>
+                                    <ContentPresenter x:Name="ContentSite" 
+                                                      IsHitTestVisible="False" 
+                                                      Content="{TemplateBinding SelectionBoxItem}"
+                                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                      Margin="10,0,0,0"
+                                                      VerticalAlignment="Center"
+                                                      HorizontalAlignment="Left" />
+                                    <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
+                                        <Grid x:Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                            <Border x:Name="DropDownBorder" Background="White" BorderThickness="1" BorderBrush="#6366F1" CornerRadius="0,0,8,8"/>
+                                            <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                                <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </Popup>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="BlueDatePicker" TargetType="DatePicker">
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="BorderBrush" Value="#6366F1"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Padding" Value="5"/>
+            </Style>
+
+            <Style x:Key="BlueDataGrid" TargetType="DataGrid">
+                <Setter Property="Background" Value="#99FFFFFF"/>
+                <Setter Property="BorderBrush" Value="#6366F1"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="RowBackground" Value="#B3FFFFFF"/>
+                <Setter Property="AlternatingRowBackground" Value="#B3F1F5F9"/>
+
+                <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+                <Setter Property="HorizontalGridLinesBrush" Value="#80E2E8F0"/>
+                <Setter Property="RowHeight" Value="35"/>
+                <Setter Property="HeadersVisibility" Value="Column"/>
+                <Setter Property="FontSize" Value="14"/>
+            </Style>
+
+            <Style TargetType="DataGridColumnHeader">
+                <Setter Property="Background" Value="#CC4338CA"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Padding" Value="10"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="BlueButton" TargetType="Button">
+                <Setter Property="Background" Value="#4338CA"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Padding" Value="20,10"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Cursor" Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}" CornerRadius="10">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#3730A3"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock Text="Manage Attendance" FontSize="28" FontWeight="ExtraBold" Foreground="White">
+                    <TextBlock.Effect>
+                        <DropShadowEffect ShadowDepth="2" BlurRadius="5" Opacity="0.5"/>
+                    </TextBlock.Effect>
+                </TextBlock>
+
+                <Border Background="#99FFFFFF" CornerRadius="15" Padding="20" Margin="0,20,0,0">
+                    <UniformGrid Columns="2">
+                        <StackPanel Margin="0,0,10,0">
+                            <TextBlock Text="Select Course" FontWeight="Bold" Foreground="#1E1B4B" Margin="0,0,0,5"/>
+                            <ComboBox x:Name="CboCourses" Style="{StaticResource BlueComboBox}"
+                                      DisplayMemberPath="CourseName" 
+                                      SelectedValuePath="CourseID" 
+                                      SelectionChanged="CboCourses_SelectionChanged"/>
+                        </StackPanel>
+                        <StackPanel Margin="10,0,0,0">
+                            <TextBlock Text="Date" FontWeight="Bold" Foreground="#1E1B4B" Margin="0,0,0,5"/>
+                            <DatePicker x:Name="DpDate" Style="{StaticResource BlueDatePicker}"
+                                        SelectedDate="{x:Static System:DateTime.Now}" 
+                                        xmlns:System="clr-namespace:System;assembly=mscorlib"/>
+                        </StackPanel>
+                    </UniformGrid>
+                </Border>
+            </StackPanel>
+
+            <DataGrid x:Name="DgAttendanceList" Grid.Row="1" 
+                      Style="{StaticResource BlueDataGrid}"
+                      AutoGenerateColumns="False" 
+                      CanUserAddRows="False">
+                <DataGrid.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="10"/>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Student ID" Binding="{Binding StudentID}" IsReadOnly="True" Width="120"/>
+                    <DataGridTextColumn Header="Student Name" Binding="{Binding StudentName}" IsReadOnly="True" Width="*"/>
+                    <DataGridTemplateColumn Header="Status" Width="180">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedValue="{Binding Status, UpdateSourceTrigger=PropertyChanged}" 
+                                          SelectedValuePath="Content" 
+                                          Height="30" 
+                                          Margin="5"
+                                          BorderBrush="#6366F1"
+                                          BorderThickness="1"
+                                          Opacity="0.9">
+                                    <ComboBoxItem Content="Present" Foreground="#166534" FontWeight="Bold"/>
+                                    <ComboBoxItem Content="Absent" Foreground="#DC2626" FontWeight="Bold"/>
+                                    <ComboBoxItem Content="Late" Foreground="#D97706" FontWeight="Bold"/>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                <Button Content="Save Attendance" Click="SaveAttendance_Click" Style="{StaticResource BlueButton}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
